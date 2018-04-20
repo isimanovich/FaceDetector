@@ -18,7 +18,7 @@ section {
   border-width: 0 !important;
 }
 
-.dropzone>div {
+x.dropzone>div {
   height: 320px !important;
 }
 
@@ -42,8 +42,7 @@ section {
 }
 
 .preview {
-  max-width: 500px;
-  max-height: 400px;
+ width:100%;
   display:inherit;
 }
 
@@ -92,11 +91,11 @@ h3 {
 }
 
 .blurb {
-  padding: 10px 5px 1px 10px;
+  padding: 10px 5px 0px 0px;
   position: relative;
   letter-spacing: 3px;
   font-size: .9em;
-  background-color: rgba(136, 136, 136, .1);
+ 
   margin-top: 10px;
   border-radius: 5px;
 }
@@ -265,4 +264,13 @@ display: inline-flex;
 }
 .legend{
   padding: 5px 5px 0px 5px !important;
+}
+.apimap{
+  width:100%;
+}
+.logo:hover{
+  cursor: pointer;
+}
+.photo{
+  margin-bottom:20px;
 }

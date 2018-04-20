@@ -292,11 +292,11 @@ class Face extends Component {
           <Row>
             <Col xs={9} className='container'>
             <Heading tagName='h1' size='xl'>
-          <Logo tagName="span" name="" onClick={this.goHome} /> Cloud Learning Journey
+          <Logo className="logo" tagName="span" name="" onClick={this.goHome} /> Cloud Learning Journey
           
         </Heading>
         <Heading tagName='div' size='xxs' className='subtitle'>
-          Microsoft Cognitive Services Platform
+          Microsoft Cognitive Services Platform - Face API
               </Heading>
 
             </Col>
@@ -356,6 +356,7 @@ class Face extends Component {
               <Button className="mr3" onClick={this.resetWebcam}>Go back</Button> }
                           
                 <Dropzone
+                className="photo"
                   accept={accept}
                   onDrop={this.onDrop.bind(this)}
                   onDragEnter={this.onDragEnter.bind(this)}
@@ -363,7 +364,7 @@ class Face extends Component {
                 >
 
                   {dropzoneActive && <div style={overlayStyle} />}
-                  <div>
+                  <div className="photo">
 
                     {showCamera
                       ? <div>
@@ -378,7 +379,7 @@ class Face extends Component {
                     </div>
                       : null}
 
-                      {!dropzoneActive ? (
+                      {dropzoneActive ? (
                             <img
                             alt=""
                             id="preview"
@@ -392,7 +393,7 @@ class Face extends Component {
                         id="preview"
                         alt={f.name}
                         className='preview'
-                        src={this.state.imageSrc || f.preview}
+                        src={imageSrc || f.preview}
                         key={f.name}
                       />
                     ))}
@@ -401,8 +402,6 @@ class Face extends Component {
 
                 </Dropzone>
 
-                
-
               </div>
 
               {showintro
@@ -410,10 +409,10 @@ class Face extends Component {
 
                   <Heading tagName='div' size='xxs' className='subtitle'>Drag and drop photos to analyze</Heading>
                   <Rule className='pt3' />
-                  <p className='text-xl mb3'>
+                  {/* <p className='text-xl mb3'>
                       Detect a range of emotions including anger, contempt, disgust, fear, happiness, neutral,
                       sadness, and surprise.
-                    </p>
+                    </p> */}
     
                 </span>
                 : null}
@@ -431,44 +430,27 @@ class Face extends Component {
                 ? <span>
 
                   <div>
-                      Microsoft Cognitive Services (MCS) allows you to tap into the
-                      power of Machine Learning and perform sophisticated analysis of
-                      photographs, simply by calling a web service.
+                  The Microsoft Cognitive Services APIs allow developers to embed AI 
+                  in their applications to enable those apps to see, speak, understand, 
+                  and interpret the needs of users.
                     </div>
 
                   <div className='blurb'>
-                  <Heading tagName='div' size='xxs' className='subtitle'>
-                  Use AI to solve business problems
-                    </Heading>
+                  
 
-                    <span className='stretch'>
-                      <ul>
-
-                        <li>
-                          <b>detection</b> - Detect multiple faces in photos for analysis of emotions 
-                          and other facial attributes.
-                          </li>
-
-                        <li>
-                          <b>identification</b> - Search a database for possible matches.
-
-                          </li>
-
-                        <li>
-                          <b>verification</b> - Two pictures are compared. (Login/authentication)
-                          </li>
-                      </ul>
-
+                    <span >
+                      <img className="apimap" src={require('../images/vision2.png')} />
                     </span>
                   </div>
 
                   <p>
-                      The web service takes a facial expression in an image as an input,
-                      and returns the confidence across a set of emotions for each face in the image.
+                      These Web services takes an image as an input,
+                      and returns JSON data with confidence scores across a set of facial 
+                      attributes for each face in the image.
                     </p>
 
                   <p>
-                      These emotions are understood to be cross-culturally
+                      These attributes and emotions are understood to be cross-culturally
                       and universally communicated with particular facial expressions as well as gender and approximate age.
                     </p>
 
