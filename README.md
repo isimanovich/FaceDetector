@@ -18,7 +18,9 @@ module.exports = {
 ```
 
 ## Running The App
+```bash
 npm install
+```
 
 In development, the app runs via two separate processes...
 
