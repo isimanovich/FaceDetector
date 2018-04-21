@@ -1,7 +1,7 @@
 import React from 'react'
 import { getEmotionName, getEmotionChart, hasMoustache, isBald } from '../Util'
 import SBPieChart from './SBPieChart'
-import Chart from './Chart'
+
 
 const FaceMetaData = props => {
   let limit = 60;

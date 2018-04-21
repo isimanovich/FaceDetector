@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "author": "Brian Knowles",
+  "homepage" : "https://github.com/bwknow/FaceDetector.git",
   "dependencies": {
     "@starbucks/pattern-library": "^1.0.4",
     "blob-util": "^1.3.0",

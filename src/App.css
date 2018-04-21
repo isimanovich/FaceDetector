@@ -184,6 +184,7 @@ h3 {
 .score {
   padding: 3px;
   border-radius: 5px;
+  text-transform: uppercase;
 }
 
 .chart{

@@ -117,6 +117,7 @@ class Face extends Component {
       loading: false,
       imageSrc:'',
       showCamera: true,
+      reject:false
     })
   }
 
@@ -296,7 +297,7 @@ class Face extends Component {
           
         </Heading>
         <Heading tagName='div' size='xxs' className='subtitle'>
-          Microsoft Cognitive Services Platform - Face API
+          <b>FaceDetector</b> - digital survey emotion analysis
               </Heading>
 
             </Col>
@@ -439,12 +440,12 @@ class Face extends Component {
                   
 
                     <span >
-                      <img className="apimap" src={require('../images/vision2.png')} />
+                      <img alt="Vision" className="apimap" src={require('../images/vision2.png')} />
                     </span>
                   </div>
 
                   <p>
-                      These Web services takes an image as an input,
+                      The Face API takes an image as an input,
                       and returns JSON data with confidence scores across a set of facial 
                       attributes for each face in the image.
                     </p>
