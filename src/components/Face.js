@@ -333,16 +333,7 @@ class Face extends Component {
    
         <div className='header-bar' />
         
-        <div className='infobar'>
-          {metadata.length
-            ? <div>
-              <span className='sectitle'>
-                  Digital survey profiles: {metadata.length} 
-                 </span>
-              
-            </div>
-            : null}
-        </div>
+       
         <Container
           className='main-container'
           fluid
@@ -472,12 +463,15 @@ class Face extends Component {
                   loading={loading}
                 />
 
+                
+
                 {!loading && !showintro && !reject
                   
                   ? <div>
-                    <div className='summary-chart chart meta'>
-                        Summary 
-                      </div>
+                    
+                      <span className=' meta'>
+                        Summary: digital survey profiles: {metadata.length} 
+                       </span>
                     <div>
                       <Chart
                         size={500}
