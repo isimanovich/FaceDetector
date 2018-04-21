@@ -18,6 +18,9 @@ module.exports = {
 ```
 
 ## Running The App
+```bash
+npm install
+```
 
 In development, the app runs via two separate processes...
 
@@ -28,7 +31,7 @@ node server/server.js
 ```
 
 
-### Start Create React App
+### Start React App
 
 In a different terminal tab...
 
