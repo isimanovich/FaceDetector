@@ -16,6 +16,7 @@ module.exports = {
   key
 };
 ```
+## npm i
 
 ## Running The App
 
@@ -28,7 +29,7 @@ node server/server.js
 ```
 
 
-### Start Create React App
+### Start React App
 
 In a different terminal tab...
 
