@@ -41,10 +41,6 @@ npm start
 
 ## Building For Production
 
-In production, you want Express to serve up your app.
-
-### Build React App
-
 ```bash
 npm build
 ```
