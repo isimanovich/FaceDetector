@@ -63,7 +63,7 @@ export const getEmotionChartSummary = (metadata, gender) => {
     })
 
     var sum = mood.reduce((a, b) => a + b, 0)
-    chart.push({ x: emotions[i], y: sum * 100 })
+    chart.push({ x: emotions[i], y: sum * 4})
   }
   return chart
 }

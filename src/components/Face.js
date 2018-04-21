@@ -37,7 +37,7 @@ class Face extends Component {
       heroes: [],
       creatingHero: false,
       selectedHeroName:'',
-      showCamera:true,
+      showCamera:false,
    }
   }
 
@@ -116,7 +116,7 @@ class Face extends Component {
       metadata: [],
       loading: false,
       imageSrc:'',
-      showCamera: true,
+      showCamera: false,
       reject:false
     })
   }
@@ -337,7 +337,7 @@ class Face extends Component {
           {metadata.length
             ? <div>
               <span className='sectitle'>
-                  Total faces analyzed: {metadata.length} 
+                  Digital survey profiles: {metadata.length} 
                  </span>
               
             </div>
@@ -353,8 +353,8 @@ class Face extends Component {
             <Col xs={5} className='container'>
               <div className='dropzone'>
 
-              {showCamera ?  <Button className="mr3" onClick={this.capture}>Take a picture</Button>:
-              <Button className="mr3" onClick={this.resetWebcam}>Go back</Button> }
+              {showCamera  ?  <Button className="mr3" onClick={this.capture}>Snap Photo Now</Button>:
+              <Button className="mr3" onClick={this.resetWebcam}>Take a picture</Button> }
                           
                 <Dropzone
                 className="photo"
@@ -371,14 +371,20 @@ class Face extends Component {
                       ? <div>
                       
                         <Webcam
-                          audio={false}
+                       
                           height={350}
                           ref={this.setRef}
                           screenshotFormat="image/jpeg"
                           width={400}
                         />  
                     </div>
-                      : null}
+                      : showintro  ? <img
+                      alt=""
+                      id="preview"
+                      className='preview'
+                      src={require('../images/faceintro2.png')}
+                     /> 
+                    :null}
 
                       {dropzoneActive ? (
                             <img
@@ -423,7 +429,7 @@ class Face extends Component {
 
               {reject
                 ? <div className='error'>
-                    Sorry, unable to analyze this photo.
+                   Unable to analyze this photo. Check the proper lighting and resolution quality.
                   </div>
                 : null}
 
@@ -440,7 +446,7 @@ class Face extends Component {
                   
 
                     <span >
-                      <img alt="Vision" className="apimap" src={require('../images/vision2.png')} />
+                      <img alt="Vision" className="apimap" src={require('../images/vision.png')} />
                     </span>
                   </div>
 
@@ -469,8 +475,8 @@ class Face extends Component {
                 {!loading && !showintro && !reject
                   
                   ? <div>
-                    <div className='summary-chart chart'>
-                        Summary - combined emotions
+                    <div className='summary-chart chart meta'>
+                        Summary 
                       </div>
                     <div>
                       <Chart
