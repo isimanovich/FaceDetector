@@ -49,15 +49,3 @@ In production, you want Express to serve up your app.
 npm build
 ```
 
-Now start the Express server from the server folder
-
-```bash
-cd server
-npm start
-```
-
-Your entire application is now running on port 3001.
-
-Everything in the `server` folder is what is needed in production. Those are all of the build assets. 
-
-
