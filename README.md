@@ -16,9 +16,9 @@ module.exports = {
   key
 };
 ```
-## npm i
 
 ## Running The App
+npm install
 
 In development, the app runs via two separate processes...
 
