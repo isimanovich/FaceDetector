@@ -7,6 +7,9 @@ section {
   display: inherit;
 }
 
+.label{
+  line-height: 34px;
+}
 .dropzone {
   flex: 1 auto;
   background-color: #fff;
@@ -26,13 +29,12 @@ x.dropzone>div {
   background-color: #f9f9f9 !important;
   border: 1px solid #e5e5e5;
   border-radius: 12px;
-  padding: 3px 10px 3px 10px;
+  padding: 10px 10px 6px 10px;
   margin: 5px;
   min-width:150px;
   color: #555;
   overflow: hidden !important;
   display: inline-block;
-  padding: 10px;
   vertical-align: top;
 }
 
@@ -77,6 +79,9 @@ div {
 
 h3 {
   color: #888888;
+  padding: 0 0 0px 10px;
+  margin:0;
+  font-size:1.3em;
 }
 
 .title {
@@ -91,7 +96,7 @@ h3 {
 }
 
 .blurb {
-  padding: 10px 5px 0px 0px;
+  padding: 0px 5px 0px 10px;
   position: relative;
   letter-spacing: 3px;
   font-size: .9em;
@@ -216,11 +221,11 @@ h3 {
   line-height: 0.625rem;
   letter-spacing: 0.1rem;
 }
-
 .footer a {
   color: #fff;
   padding: 10px 10px;
   font-size: 0.75rem;
+  text-decoration: none;
 }
 
 .footer div {
@@ -281,4 +286,13 @@ background-image: url('./images/faceintro2.png') no-repeat !important;
 width:200px;
 height:200px;
 z-index:10000;
+}
+
+.right{
+  float:right;
+}
+
+.chart.meta .x.axis{
+  display:none;
+  
 }

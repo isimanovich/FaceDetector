@@ -4,7 +4,7 @@ import { getPieData } from '../Util'
 const SBPieChart = props => {
   
   const { data, size } = props
-  console.log('pieData',JSON.stringify(getPieData(data), null, 2))
+  //console.log('pieData',JSON.stringify(getPieData(data), null, 2))
   return (
     <div className='chart'>
 

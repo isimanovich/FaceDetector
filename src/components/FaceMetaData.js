@@ -17,7 +17,7 @@ const FaceMetaData = props => {
     }
     finalacc = val.join(', ')
   }
-  if (ag > limit) {ag = parseInt(ag - 15)}
+  //if (ag > limit) {ag = parseInt(ag - 15)}
   return (
     <div className='meta'>
 

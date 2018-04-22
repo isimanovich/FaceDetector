@@ -45,6 +45,17 @@ export const getPieData = (data) => {
   return pieData;
 }
 
+export const getScatterPlotData = (data) => {
+ 
+  let pieData = []
+  for (let i = 0; i < data.length; i++) {
+    pieData.push({ type: data[i].faceAttributes.gender, y:data[i].faceAttributes.age, x: parseInt(i) })
+  }
+  console.log('scatterpieData: ',pieData)
+  return pieData;
+}
+
+
 export const getEmotionChartSummary = (metadata, gender) => {
   let chart = []
   let mood = null
@@ -67,6 +78,8 @@ export const getEmotionChartSummary = (metadata, gender) => {
   }
   return chart
 }
+
+
 
 export const getEmotionName = emotion => {
   let confidencelevel = 0

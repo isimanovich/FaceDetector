@@ -7,16 +7,17 @@ import { RingLoader } from 'react-spinners'
 import { Container, Row, Col } from 'react-grid-system'
 import Chart from './Chart'
 import SBPieChart from './SBPieChart'
-import { getEmotionChartSummary,getPieData } from '../Util'
+import SBScatterplotChart from './SBScatterplotChart'
+import { getEmotionChartSummary, getPieData, getScatterPlotData } from '../Util'
 import Footer from './footer'
-import {resource} from "./resource";
-import Webcam from 'react-webcam';
-import Heading from "@starbucks/pattern-library/lib/components/heading";
-import Logo from "@starbucks/pattern-library/lib/components/logo";
-import Button from "@starbucks/pattern-library/lib/components/button";
-import Rule from "@starbucks/pattern-library/lib/components/rule";
-import Hero from './Hero';
-import api from '../api';
+import { resource } from './resource'
+import Webcam from 'react-webcam'
+import Heading from '@starbucks/pattern-library/lib/components/heading'
+import Logo from '@starbucks/pattern-library/lib/components/logo'
+import Button from '@starbucks/pattern-library/lib/components/button'
+import Rule from '@starbucks/pattern-library/lib/components/rule'
+import Hero from './Hero'
+import api from '../api'
 import { Legend } from 'react-easy-chart'
 
 var _ = require('lodash')
@@ -31,79 +32,97 @@ class Face extends Component {
       happiness: 0,
       loading: false,
       showintro: true,
-      showhistory:false,
+      showhistory: false,
       reject: false,
-      caption:'',
+      caption: '',
       heroes: [],
       creatingHero: false,
-      selectedHeroName:'',
-      showCamera:false,
-   }
+      selectedHeroName: '',
+      showCamera: false,
+      windowWidth: 400,
+      componentWidth: 1000
+    }
   }
 
-  handleSelect=(hero)=> {
-    this.setState({ selectedHero: hero });
-  }
-
-  handleDelete=(event, hero) =>{
-    event.stopPropagation();
-    api.destroy(hero).then(() => {
-      let heroes = this.state.heroes;
-      heroes = heroes.filter(h => h !== hero);
-      this.setState({ heroes: heroes });
-      if (this.selectedHero === hero) {
-        this.setState({ selectedHero: null });
-      }
+  /* handleResize() {
+    this.setState({
+      windowWidth: window.innerWidth - 100,
+      componentWidth: this.refs.scatterComponent.offsetWidth
     });
   }
 
-  handleEnableAddMode=()=> {
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
+    this.handleResize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  } */
+
+  handleSelect = hero => {
+    this.setState({ selectedHero: hero })
+  }
+
+  handleDelete = (event, hero) => {
+    event.stopPropagation()
+    api.destroy(hero).then(() => {
+      let heroes = this.state.heroes
+      heroes = heroes.filter(h => h !== hero)
+      this.setState({ heroes: heroes })
+      if (this.selectedHero === hero) {
+        this.setState({ selectedHero: null })
+      }
+    })
+  }
+
+  handleEnableAddMode = () => {
     this.setState({
       addingHero: true,
-      selectedHero: { id: '', name: '', saying: '',emotion:null }
-    });
+      selectedHero: { id: '', name: '', saying: '', emotion: null }
+    })
   }
 
-  handleCancel=()=> {
-    this.setState({ addingHero: false, selectedHero: null });
+  handleCancel = () => {
+    this.setState({ addingHero: false, selectedHero: null })
   }
 
   handleSave = () => {
-    let heroes = this.state.heroes;
-    
+    let heroes = this.state.heroes
+
     if (!this.state.addingHero) {
       api
         .create(this.state.selectedHero)
         .then(result => {
-          heroes.push(this.state.selectedHero);
+          heroes.push(this.state.selectedHero)
           this.setState({
             heroes: heroes,
             selectedHero: null,
             addingHero: false,
             showhistory: true
-          });
-          console.log('Successfully created!' );
+          })
+          console.log('Successfully created!')
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     } else {
       api
         .update(this.state.selectedHero)
         .then(() => {
-          this.setState({ selectedHero: null });
+          this.setState({ selectedHero: null })
         })
-        .catch(err => {});
+        .catch(err => {})
     }
   }
 
-  handleOnChange=(event) => {
-     let selectedHero = this.state.selectedHero;
-    selectedHero[event.target.name] = event.target.value;
-    this.setState({ selectedHero: selectedHero });
+  handleOnChange = event => {
+    let selectedHero = this.state.selectedHero
+    selectedHero[event.target.name] = event.target.value
+    this.setState({ selectedHero: selectedHero })
   }
 
-   getTotal = (data, name) => {
+  getTotal = (data, name) => {
     _.find(data, function (obj) {
       return obj.anger === name
     })
@@ -115,16 +134,16 @@ class Face extends Component {
       files: [],
       metadata: [],
       loading: false,
-      imageSrc:'',
+      imageSrc: '',
       showCamera: false,
-      reject:false
+      reject: false
     })
   }
 
-  resetWebcam = ()=>{
+  resetWebcam = () => {
     this.setState({
       showCamera: true,
-      imageSrc:''
+      imageSrc: ''
     })
   }
 
@@ -148,15 +167,15 @@ class Face extends Component {
       metadata: [],
       showintro: false,
       reject: false,
-      showCamera:false,
-      imageSrc:''
+      showCamera: false,
+      imageSrc: ''
     })
 
     const promise = new Promise((resolve, reject) => {
-    const reader = new FileReader()
+      const reader = new FileReader()
 
-    reader.readAsDataURL(files[0])
-    reader.onload = () => {
+      reader.readAsDataURL(files[0])
+      reader.onload = () => {
         if (reader.result) {
           resolve(reader.result)
         } else {
@@ -174,9 +193,9 @@ class Face extends Component {
     )
   }
 
-  getFaceDetection = (preview) => {
-      const uriBase = resource.URI_BASE+'face/v1.0/detect';
-      const params = {
+  getFaceDetection = preview => {
+    const uriBase = resource.URI_BASE + 'face/v1.0/detect'
+    const params = {
       returnFaceId: 'true',
       returnFaceLandmarks: 'false',
       returnFaceAttributes: resource.FACE_ATTRIBUTES
@@ -189,38 +208,36 @@ class Face extends Component {
       processData: false,
       beforeSend: function (xhrObj) {
         xhrObj.setRequestHeader('Content-Type', contentType)
-        xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", resource.FACE_KEY)
+        xhrObj.setRequestHeader('Ocp-Apim-Subscription-Key', resource.FACE_KEY)
       },
       type: 'POST',
-   
       data: makeblob(preview)
     })
       .done(data => {
-        this.setState({ metadata: data,loading: false })
-       
+        this.setState({ metadata: data, loading: false })
+
         if (this.state.metadata.length === 0) {
           this.setState({ reject: true })
         }
         // console.clear()
-        console.log('JSON data: ', JSON.stringify(this.state.metadata, null, 2))
+        // console.log('JSON data: ', JSON.stringify(this.state.metadata, null, 2))
       })
       .fail(function (jqXHR, textStatus, errorThrown) {})
   }
 
-  
   getBackgroundStyle (value) {
     return { backgroundImage: 'url(' + value.url + ')' }
   }
 
-  getMales=(metadata)=>{
-    let males=[];
+  getMales = metadata => {
+    let males = []
 
     for (let i = 0; i < metadata.length; i++) {
-      if(metadata[i].faceAttributes.gender==='male'){
-        males.push({val: metadata[i].faceAttributes.gender })
+      if (metadata[i].faceAttributes.gender === 'male') {
+        males.push({ val: metadata[i].faceAttributes.gender })
       }
     }
-    return males;
+    return males
   }
 
   applyMimeTypes (event) {
@@ -229,23 +246,23 @@ class Face extends Component {
     })
   }
 
-  setRef = (webcam) => {
-    this.webcam = webcam;
+  setRef = webcam => {
+    this.webcam = webcam
   }
- 
-  capture = () => {
-    const imageSrc = this.webcam.getScreenshot();
 
-    this.getFaceDetection (imageSrc)
+  capture = () => {
+    const imageSrc = this.webcam.getScreenshot()
+
+    this.getFaceDetection(imageSrc)
     this.setState({
       loading: true,
       metadata: [],
       showintro: false,
       reject: false,
-      imageSrc:imageSrc,
-      showCamera:false
+      imageSrc: imageSrc,
+      showCamera: false
     })
-  };
+  }
 
   render () {
     const {
@@ -255,7 +272,7 @@ class Face extends Component {
       metadata,
       showintro,
       reject,
-      loading, 
+      loading,
       files,
       imageSrc,
       showCamera
@@ -273,8 +290,8 @@ class Face extends Component {
       color: '#fff'
     }
 
-    let males = this.getMales(metadata).length;
-    let females =  metadata.length - males ;
+    let males = this.getMales(metadata).length
+    let females = metadata.length - males
     const scatterStyle = {
       '.legend': {
         backgroundColor: '#f9f9f9',
@@ -282,58 +299,40 @@ class Face extends Component {
         borderRadius: '12px',
         fontSize: '0.8em',
         padding: '12px',
-        marginBottom:'10px',
-        marginTop:'10px'
+        marginBottom: '10px',
+        marginTop: '10px'
       }
-    };
+    }
+
     return (
       <div>
 
- <Container className='main-container' fluid>
+        <Container className='main-container' fluid>
           <Row>
             <Col xs={9} className='container'>
-            <Heading tagName='h1' size='xl'>
-          <Logo className="logo" tagName="span" name="" onClick={this.goHome} /> Cloud Learning Journey
-          
-        </Heading>
-        <Heading tagName='div' size='xxs' className='subtitle'>
-          <b>FaceDetector</b> - digital survey emotion analysis
+              <Heading tagName='h3' size='xl'>
+                <Logo
+                  className='logo'
+                  tagName='span'
+                  name=''
+                  onClick={this.goHome}
+                />
+                Cloud Learning Journey
+
+              </Heading>
+              <Heading tagName='div' size='xxs' className='subtitle'>
+                <b>FaceDetector</b> - digital survey emotion analysis
               </Heading>
 
             </Col>
 
-            <Col xs={3} className='container'>
-            <span className="gender">
-        	{males ? (
-              <span className="piechart male">Male {males}
-                <SBPieChart
-                  size={100}
-                  data={getEmotionChartSummary(metadata,'male')}
-                  />
-              </span>
-               ):null}
-              {females ? (
-                <span className="piechart female">Female {females}
-                <SBPieChart
-                  size={100}
-                  data={getEmotionChartSummary(metadata,'female')}
-                  />
-              </span>
-              ):null}
-              
-              </span>
+            <Col xs={3} className='container' />
 
-            </Col>
+          </Row>
+        </Container>
 
-
-            </Row>
-            </Container>
-
-
-   
         <div className='header-bar' />
-        
-       
+
         <Container
           className='main-container'
           fluid
@@ -344,11 +343,16 @@ class Face extends Component {
             <Col xs={5} className='container'>
               <div className='dropzone'>
 
-              {showCamera  ?  <Button className="mr3" onClick={this.capture}>Snap Photo Now</Button>:
-              <Button className="mr3" onClick={this.resetWebcam}>Take a picture</Button> }
-                          
+                {showCamera
+                  ? <Button className='mr3' onClick={this.capture}>
+                      Snap Photo Now
+                    </Button>
+                  : <Button className='mr3' onClick={this.resetWebcam}>
+                      Take a picture
+                    </Button>}
+
                 <Dropzone
-                className="photo"
+                  className='photo'
                   accept={accept}
                   onDrop={this.onDrop.bind(this)}
                   onDragEnter={this.onDragEnter.bind(this)}
@@ -356,39 +360,39 @@ class Face extends Component {
                 >
 
                   {dropzoneActive && <div style={overlayStyle} />}
-                  <div className="photo">
+                  <div className='photo'>
 
                     {showCamera
                       ? <div>
-                      
+
                         <Webcam
-                       
                           height={350}
                           ref={this.setRef}
-                          screenshotFormat="image/jpeg"
+                          screenshotFormat='image/jpeg'
                           width={400}
-                        />  
-                    </div>
-                      : showintro  ? <img
-                      alt=""
-                      id="preview"
-                      className='preview'
-                      src={require('../images/faceintro2.png')}
-                     /> 
-                    :null}
-
-                      {dropzoneActive ? (
-                            <img
-                            alt=""
-                            id="preview"
+                          />
+                      </div>
+                      : showintro
+                          ? <img
+                            alt=''
+                            id='preview'
                             className='preview'
-                            src={imageSrc}
-                           /> 
-                      ):null}
-      
+                            src={require('../images/faceintro2.png')}
+                            />
+                          : null}
+
+                    {dropzoneActive
+                      ? <img
+                        alt=''
+                        id='preview'
+                        className='preview'
+                        src={imageSrc}
+                        />
+                      : null}
+
                     {files.map(f => (
                       <img
-                        id="preview"
+                        id='preview'
                         alt={f.name}
                         className='preview'
                         src={imageSrc || f.preview}
@@ -405,13 +409,10 @@ class Face extends Component {
               {showintro
                 ? <span>
 
-                  <Heading tagName='div' size='xxs' className='subtitle'>Drag and drop photos to analyze</Heading>
+                  <Heading tagName='div' size='xxs' className='subtitle'>
+                      Drag and drop photos to analyze
+                    </Heading>
                   <Rule className='pt3' />
-                  {/* <p className='text-xl mb3'>
-                      Detect a range of emotions including anger, contempt, disgust, fear, happiness, neutral,
-                      sadness, and surprise.
-                    </p> */}
-    
                 </span>
                 : null}
 
@@ -420,7 +421,7 @@ class Face extends Component {
 
               {reject
                 ? <div className='error'>
-                   Unable to analyze this photo. Check the proper lighting and resolution quality.
+                    Unable to process: low image resolution quality
                   </div>
                 : null}
 
@@ -428,22 +429,28 @@ class Face extends Component {
                 ? <span>
 
                   <div>
-                  The Microsoft Cognitive Services APIs allow developers to embed AI 
-                  in their applications to enable those apps to see, speak, understand, 
-                  and interpret the needs of users.
+                      The Microsoft Cognitive Services APIs allow developers to embed AI
+                      
+                      in their applications to enable those apps to see, speak, understand,
+                     
+                      and interpret the needs of users.
                     </div>
 
                   <div className='blurb'>
-                  
 
-                    <span >
-                      <img alt="Vision" className="apimap" src={require('../images/vision.png')} />
+                    <span>
+                      <img
+                        alt='Vision'
+                        className='apimap'
+                        src={require('../images/vision.png')}
+                        />
                     </span>
                   </div>
 
                   <p>
                       The Face API takes an image as an input,
-                      and returns JSON data with confidence scores across a set of facial 
+                      and returns JSON data with confidence scores across a set of facial
+                      
                       attributes for each face in the image.
                     </p>
 
@@ -463,28 +470,23 @@ class Face extends Component {
                   loading={loading}
                 />
 
-                
-
                 {!loading && !showintro && !reject
-                  
                   ? <div>
-                    
-                      <span className=' meta'>
-                        Summary: digital survey profiles: {metadata.length} 
-                       </span>
+
+                    <span className='meta right'>
+                        Summary: total {metadata.length}
+                    </span>
                     <div>
                       <Chart
                         size={500}
                         data={getEmotionChartSummary(metadata)}
                         />
                     </div>
-                    
+
                   </div>
                   : null}
 
-          <div>
-              
-              </div>
+                <div />
               </div>
 
             </Col>
@@ -493,34 +495,84 @@ class Face extends Component {
           <Row>
             <Col>
 
-              {showhistory ? (
-                <div>
-                <ul className="heroes">
+              {showhistory
+                ? <div>
+                  <ul className='heroes'>
 
-                {this.state.heroes.map(hero => {
-                  return (
-                    <Hero
-                      key={hero.id}
-                      hero={hero}
-                      onSelect={this.handleSelect}
-                      onDelete={this.handleDelete}
-                      selectedHero={this.state.selectedHero}
-                    />
-                  );
-                })}
-              </ul>
+                    {this.state.heroes.map(hero => {
+                      return (
+                        <Hero
+                          key={hero.id}
+                          hero={hero}
+                          onSelect={this.handleSelect}
+                          onDelete={this.handleDelete}
+                          selectedHero={this.state.selectedHero}
+                          />
+                      )
+                    })}
+                  </ul>
+                </div>
+                : null}
+
+              <div>
+
+                {metadata.length > 1
+                  ? <span>
+                    <Row>
+                      
+                      {metadata.length}
+                      <div className='label'>Profile Analysys</div>
+                    </Row>
+                    <SBScatterplotChart
+                      width={150}
+                      height={200}
+                      data={getScatterPlotData(metadata)}
+                      />
+                  </span>
+                  : null}
+
+                <span className='gender'>
+                  {males
+                    ? <span className='piechart male meta'>
+                        Male {males}
+                      <SBPieChart
+                        size={150}
+                        data={getEmotionChartSummary(metadata, 'male')}
+                        />
+                    </span>
+                    : null}
+                  {females
+                    ? <span className='piechart female meta'>
+                        Female {females}
+                      <SBPieChart
+                        size={150}
+                        data={getEmotionChartSummary(metadata, 'female')}
+                        />
+                    </span>
+                    : null}
+
+                </span>
+
               </div>
-              )
-              :null}
-             </Col>
+
+            </Col>
+
           </Row>
-            {metadata.length   ? (
-        
-           <Row>
-            <Col>
-            <Row>
-              <Legend styles={scatterStyle} horizontal data={getPieData(getEmotionChartSummary(metadata))} dataId={'key'}  />
-              </Row>
+          {metadata.length
+            ? <Row>
+              <Col>
+                <Row>
+                  <Legend
+                    styles={scatterStyle}
+                    horizontal
+                    data={getPieData(getEmotionChartSummary(metadata))}
+                    dataId={'key'}
+                    />
+
+                </Row>
+                <Row>
+                  <div className='label'>Facial Profile(s)</div>
+                </Row>
                 <Row>
 
                   {metadata.map((f, i) => (
@@ -531,21 +583,20 @@ class Face extends Component {
                       faceattributes={f.faceAttributes}
                       count={metadata.length}
                       metadata={this.state.metadata}
-                    />
-                  ))}
-    
-             </Row>
-              
-            </Col>
-          </Row>
-          
-        ):null}
-      
-   </Container>
+                      />
+                    ))}
 
-   <Footer />
-       
- </div>
+                </Row>
+
+              </Col>
+            </Row>
+            : null}
+
+        </Container>
+
+        <Footer />
+
+      </div>
     )
   }
 }
