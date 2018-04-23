@@ -12,10 +12,6 @@ import { getEmotionChartSummary, getPieData, getScatterPlotData } from '../Util'
 import Footer from './footer'
 import { resource } from './resource'
 import Webcam from 'react-webcam'
-import Heading from '@starbucks/pattern-library/lib/components/heading'
-import Logo from '@starbucks/pattern-library/lib/components/logo'
-import Button from '@starbucks/pattern-library/lib/components/button'
-import Rule from '@starbucks/pattern-library/lib/components/rule'
 import Hero from './Hero'
 import api from '../api'
 import { Legend } from 'react-easy-chart'
@@ -310,19 +306,14 @@ class Face extends Component {
         <Container className='main-container' fluid>
           <Row>
             <Col xs={9} className='container'>
-              <Heading tagName='h3' size='xl'>
-                <Logo
-                  className='logo'
-                  tagName='span'
-                  name=''
-                  onClick={this.goHome}
-                />
+              <h1 tagName='h3' size='xl'>
+                
                 Cloud Learning Journey
 
-              </Heading>
-              <Heading tagName='div' size='xxs' className='subtitle'>
+              </h1>
+              <h2 tagName='div' size='xxs' className='subtitle'>
                 <b>FaceDetector</b> - digital survey emotion analysis
-              </Heading>
+              </h2>
 
             </Col>
 
@@ -344,12 +335,12 @@ class Face extends Component {
               <div className='dropzone'>
 
                 {showCamera
-                  ? <Button className='mr3' onClick={this.capture}>
+                  ? <button className='mr3' onClick={this.capture}>
                       Snap Photo Now
-                    </Button>
-                  : <Button className='mr3' onClick={this.resetWebcam}>
+                    </button>
+                  : <button className='mr3' onClick={this.resetWebcam}>
                       Take a picture
-                    </Button>}
+                    </button>}
 
                 <Dropzone
                   className='photo'
@@ -409,10 +400,10 @@ class Face extends Component {
               {showintro
                 ? <span>
 
-                  <Heading tagName='div' size='xxs' className='subtitle'>
+                  <h1 tagName='div' size='xxs' className='subtitle'>
                       Drag and drop photos to analyze
-                    </Heading>
-                  <Rule className='pt3' />
+                    </h1>
+                 
                 </span>
                 : null}
 
@@ -427,7 +418,8 @@ class Face extends Component {
 
               {showintro
                 ? <span>
-
+                  
+                  
                   <div>
                       The Microsoft Cognitive Services APIs allow developers to embed AI
                       
