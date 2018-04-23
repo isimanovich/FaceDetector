@@ -15,6 +15,8 @@ import Webcam from 'react-webcam'
 import Hero from './Hero'
 import api from '../api'
 import { Legend } from 'react-easy-chart'
+import FaBeer from 'react-icons/lib/fa/camera';
+
 
 var _ = require('lodash')
 
@@ -265,20 +267,29 @@ console.log('preview',preview);
       }
     }
 
-    const btnStyle = {
-      backgroundColor:'green' 
-    }
-    return (
+    const reactIconOn  = {
+      color: 'tomato',
+      fontSize: '1.5em'
+      }
+    
+    
+      const reactIconOff  = {
+        color: '#097142',
+        fontSize: '1.5em'
+        
+        }
+        
+      return (
       <div>
 
         <Container className='main-container' fluid>
           <Row>
           <Col xs={2} className='container'>
-          <img alt="siren" className="siren" src={require('../images/siren.png')} />
+          <img alt="siren" onClick={this.goHome} className="siren" src={require('../images/siren.png')} />
           </Col>
 
             <Col xs={10} className='container'>
-              <h1 className="title" onClick={this.goHome} >
+              <h1 className="title" >
                 
                 Cloud Learning Journey
 
@@ -305,14 +316,14 @@ console.log('preview',preview);
 
             <Col xs={5} className='container'>
               <div className='dropzone'>
-
+              
                 {showCamera
-                  ? <button  onClick={this.capture}>
-                      Snap Photo Now
-                    </button>
-                  : <button style={btnStyle} className="bntActive" onClick={this.resetWebcam}>
-                      Take a picture
-                    </button>}
+                  ? 
+                  <FaBeer style={reactIconOn} onClick={this.capture} />
+                  
+                  : 
+                  <FaBeer style={reactIconOff} onClick={this.resetWebcam} />
+                  }
 
                 <Dropzone
                   className='photo'
@@ -324,6 +335,7 @@ console.log('preview',preview);
 
                   {dropzoneActive && <div style={overlayStyle} />}
                   <div className='photo'>
+                
 
                     {showCamera
                       ? <div>
