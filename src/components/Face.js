@@ -273,19 +273,23 @@ console.log('preview',preview);
 
         <Container className='main-container' fluid>
           <Row>
-            <Col xs={9} className='container'>
+          <Col xs={2} className='container'>
+          <img alt="siren" className="siren" src={require('../images/siren.png')} />
+          </Col>
+
+            <Col xs={10} className='container'>
               <h1 className="title" onClick={this.goHome} >
                 
                 Cloud Learning Journey
 
               </h1>
               <h3 className='subtitle'>
-                <b>FaceDetector</b> - the ultimate media analytics tool
+                <b>FRED</b> - the ultimate media analytics tool
               </h3>
 
             </Col>
 
-            <Col xs={3} className='container' />
+         
 
           </Row>
         </Container>

@@ -17,6 +17,7 @@ function get(req, res) {
 
 function create(req, res) {
   const { id, name, saying } = req.body;
+
   const hero = new Hero({ id, name, saying });
   hero
     .save()
@@ -35,7 +36,6 @@ function update(req, res) {
     .then(hero => {
       hero.name = name;
       hero.saying = saying;
-     
       hero.save().then(res.json(hero));
     })
     .catch(err => {
