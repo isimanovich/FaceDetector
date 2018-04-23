@@ -4,11 +4,11 @@ import SBPieChart from './SBPieChart'
 
 
 const FaceMetaData = props => {
-  let limit = 60;
-  const gstyle = 'upper ' + props.gender
-  const { gender, age, faceattributes } = props
-  let ag = parseInt(age)
-  let finalacc = ''
+  const limit = 60;
+  const gstyle = 'upper ' + props.gender;
+  const { gender, age, faceattributes } = props;
+  let ag = parseInt(age,0);
+  let finalacc = '';
 
   if (faceattributes.accessories.length > 0) {
     let val = []
@@ -17,7 +17,7 @@ const FaceMetaData = props => {
     }
     finalacc = val.join(', ')
   }
-  //if (ag > limit) {ag = parseInt(ag - 15)}
+  if (ag > limit) {ag = parseInt(ag - 15,10)}
   return (
     <div className='meta'>
 

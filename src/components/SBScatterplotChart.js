@@ -1,10 +1,8 @@
 import React from 'react'
 import { ScatterplotChart } from 'react-easy-chart'
-import { getScatterPlotData } from '../Util'
 
 const SBScatterplotChart = props => {
   const { data, width, height } = props
-  //console.log('SBScatterplotChart metadata: ', JSON.stringify(data, null, 2))
 
   const config = [
     {

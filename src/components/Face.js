@@ -35,26 +35,10 @@ class Face extends Component {
       creatingHero: false,
       selectedHeroName: '',
       showCamera: false,
-      windowWidth: 400,
-      componentWidth: 1000
+      imageSrc:''
+     
     }
   }
-
-  /* handleResize() {
-    this.setState({
-      windowWidth: window.innerWidth - 100,
-      componentWidth: this.refs.scatterComponent.offsetWidth
-    });
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
-    this.handleResize();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-  } */
 
   handleSelect = hero => {
     this.setState({ selectedHero: hero })
@@ -83,35 +67,7 @@ class Face extends Component {
     this.setState({ addingHero: false, selectedHero: null })
   }
 
-  handleSave = () => {
-    let heroes = this.state.heroes
-
-    if (!this.state.addingHero) {
-      api
-        .create(this.state.selectedHero)
-        .then(result => {
-          heroes.push(this.state.selectedHero)
-          this.setState({
-            heroes: heroes,
-            selectedHero: null,
-            addingHero: false,
-            showhistory: true
-          })
-          console.log('Successfully created!')
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    } else {
-      api
-        .update(this.state.selectedHero)
-        .then(() => {
-          this.setState({ selectedHero: null })
-        })
-        .catch(err => {})
-    }
-  }
-
+  
   handleOnChange = event => {
     let selectedHero = this.state.selectedHero
     selectedHero[event.target.name] = event.target.value
@@ -125,6 +81,7 @@ class Face extends Component {
   }
 
   goHome = () => {
+    
     this.setState({
       showintro: true,
       files: [],
@@ -139,7 +96,8 @@ class Face extends Component {
   resetWebcam = () => {
     this.setState({
       showCamera: true,
-      imageSrc: ''
+      imageSrc: '',
+      files:[]
     })
   }
 
@@ -188,15 +146,20 @@ class Face extends Component {
       }
     )
   }
+ 
 
   getFaceDetection = preview => {
+
+    this.setState({metadata: [],imageSrc:''});
+
+console.log('preview',preview);
+
     const uriBase = resource.URI_BASE + 'face/v1.0/detect'
     const params = {
       returnFaceId: 'true',
       returnFaceLandmarks: 'false',
       returnFaceAttributes: resource.FACE_ATTRIBUTES
     }
-
     let contentType = 'application/octet-stream'
 
     $.ajax({
@@ -211,7 +174,7 @@ class Face extends Component {
     })
       .done(data => {
         this.setState({ metadata: data, loading: false })
-
+       
         if (this.state.metadata.length === 0) {
           this.setState({ reject: true })
         }
@@ -256,7 +219,9 @@ class Face extends Component {
       showintro: false,
       reject: false,
       imageSrc: imageSrc,
-      showCamera: false
+      showCamera: false,
+      files:[]
+      
     })
   }
 
@@ -300,20 +265,23 @@ class Face extends Component {
       }
     }
 
+    const btnStyle = {
+      backgroundColor:'green' 
+    }
     return (
       <div>
 
         <Container className='main-container' fluid>
           <Row>
             <Col xs={9} className='container'>
-              <h1 tagName='h3' size='xl'>
+              <h1 className="title" onClick={this.goHome} >
                 
                 Cloud Learning Journey
 
               </h1>
-              <h2 tagName='div' size='xxs' className='subtitle'>
-                <b>FaceDetector</b> - digital survey emotion analysis
-              </h2>
+              <h3 className='subtitle'>
+                <b>FaceDetector</b> - the ultimate media analytics tool
+              </h3>
 
             </Col>
 
@@ -335,10 +303,10 @@ class Face extends Component {
               <div className='dropzone'>
 
                 {showCamera
-                  ? <button className='mr3' onClick={this.capture}>
+                  ? <button  onClick={this.capture}>
                       Snap Photo Now
                     </button>
-                  : <button className='mr3' onClick={this.resetWebcam}>
+                  : <button style={btnStyle} className="bntActive" onClick={this.resetWebcam}>
                       Take a picture
                     </button>}
 
@@ -366,16 +334,16 @@ class Face extends Component {
                       : showintro
                           ? <img
                             alt=''
-                            id='preview'
+                            id='preview1'
                             className='preview'
                             src={require('../images/faceintro2.png')}
                             />
                           : null}
 
-                    {dropzoneActive
+                    {!showCamera
                       ? <img
                         alt=''
-                        id='preview'
+                        id='preview2'
                         className='preview'
                         src={imageSrc}
                         />
@@ -383,7 +351,7 @@ class Face extends Component {
 
                     {files.map(f => (
                       <img
-                        id='preview'
+                        id='preview3'
                         alt={f.name}
                         className='preview'
                         src={imageSrc || f.preview}
@@ -400,9 +368,9 @@ class Face extends Component {
               {showintro
                 ? <span>
 
-                  <h1 tagName='div' size='xxs' className='subtitle'>
+                  <h3 className='subtitle'>
                       Drag and drop photos to analyze
-                    </h1>
+                    </h3>
                  
                 </span>
                 : null}
@@ -412,7 +380,7 @@ class Face extends Component {
 
               {reject
                 ? <div className='error'>
-                    Unable to process: low image resolution quality
+                    Unable to process: low image resolution quality or no faces found.
                   </div>
                 : null}
 
@@ -512,7 +480,7 @@ class Face extends Component {
                   ? <span>
                     <Row>
                       
-                      {metadata.length}
+                  
                       <div className='label'>Profile Analysys</div>
                     </Row>
                     <SBScatterplotChart

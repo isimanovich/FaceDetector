@@ -30,31 +30,33 @@ export const hasMoustache = face => {
 export const getEmotionChart = emotion => {
   let chart = []
   for (let i = 0; i < emotions.length; i++) {
-    chart.push({ x: emotions[i], y: parseInt(emotion[emotions[i]] * 100, 10) })
+    chart.push({ x: emotions[i], y: parseInt(emotion[emotions[i]] * 100, 0) })
   }
 
   return chart
 }
 
-export const getPieData = (data) => {
+export const getPieData = data => {
   let pieData = []
   for (let i = 0; i < data.length; i++) {
     pieData.push({ key: data[i].x, value: parseInt(data[i].y * 100, 10) })
   }
-  
-  return pieData;
+
+  return pieData
 }
 
-export const getScatterPlotData = (data) => {
- 
+export const getScatterPlotData = data => {
   let pieData = []
   for (let i = 0; i < data.length; i++) {
-    pieData.push({ type: data[i].faceAttributes.gender, y:data[i].faceAttributes.age, x: parseInt(i) })
+    pieData.push({
+      type: data[i].faceAttributes.gender,
+      y: parseInt(data[i].faceAttributes.age,0),
+      x: parseInt(i, 0)
+    })
   }
-  console.log('scatterpieData: ',pieData)
-  return pieData;
+  
+  return pieData
 }
-
 
 export const getEmotionChartSummary = (metadata, gender) => {
   let chart = []
@@ -74,12 +76,10 @@ export const getEmotionChartSummary = (metadata, gender) => {
     })
 
     var sum = mood.reduce((a, b) => a + b, 0)
-    chart.push({ x: emotions[i], y: sum * 4})
+    chart.push({ x: emotions[i], y: sum * 4 })
   }
   return chart
 }
-
-
 
 export const getEmotionName = emotion => {
   let confidencelevel = 0
@@ -98,6 +98,7 @@ export const getEmotionName = emotion => {
 export const makeblob = function (dataURL) {
   var BASE64_MARKER = ';base64,'
   var parts, raw, contentType = null
+
 
   if (dataURL.indexOf(BASE64_MARKER) === -1) {
     parts = dataURL.split(',')
