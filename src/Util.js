@@ -99,6 +99,7 @@ export const makeblob = function (dataURL) {
   var BASE64_MARKER = ';base64,'
   var parts, raw, contentType = null
 
+  if(!dataURL){return null;}
 
   if (dataURL.indexOf(BASE64_MARKER) === -1) {
     parts = dataURL.split(',')
