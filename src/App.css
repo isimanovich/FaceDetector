@@ -46,6 +46,7 @@ x.dropzone>div {
 .preview {
  width:100%;
   display:inherit;
+  cursor: pointer;
 }
 
 div {
@@ -88,6 +89,7 @@ h3 {
   font-size: 2.5em;
   padding: 0 0 10px 0px;
   color: #888888;
+  line-height: 2rem;
 }
 
 .subtitle {
@@ -97,7 +99,7 @@ h3 {
 }
 
 .blurb {
-  padding: 0px 5px 0px 10px;
+  padding: 0px 5px 10px 10px;
   position: relative;
   letter-spacing: 3px;
   font-size: .9em;
@@ -219,7 +221,7 @@ h3 {
 .footer p {
   text-transform: uppercase;
   font-size: 0.625rem;
-  line-height: 0.625rem;
+  line-height: 1rem;
   letter-spacing: 0.1rem;
 }
 .footer a {
@@ -275,6 +277,7 @@ display: inline-flex;
 }
 .apimap{
   width:100%;
+  cursor: pointer;
 }
 .logo:hover{
   cursor: pointer;
@@ -378,4 +381,8 @@ img.thumbnail{
 .after-img {
   width: 200px;
   height:auto;
+}
+
+.intro{
+  padding-top:20px;
 }

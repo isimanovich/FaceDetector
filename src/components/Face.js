@@ -36,10 +36,18 @@ class Face extends Component {
       creatingHero: false,
       selectedHeroName: '',
       showCamera: false,
-      imageSrc: ''
+      imageSrc: '',
+      isHidden: true
     }
   }
 
+  toggleHidden () {
+    this.setState({
+      isHidden: !this.state.isHidden
+    })
+  }
+
+  
    getCroppedImg=(image, pixelCrop, fileName) =>{
 
     const canvas = document.createElement('canvas');
@@ -125,7 +133,8 @@ class Face extends Component {
       loading: false,
       imageSrc: '',
       showCamera: false,
-      reject: false
+      reject: false,
+      isHidden: true
     })
   }
 
@@ -306,12 +315,20 @@ class Face extends Component {
       fontSize: '1.5em'
     }
 
+    const Child = () => (
+      <img
+      alt='Vision'
+      className='apimap'
+      src={require('../images/csa.png')}
+      />
+      )
+
     return (
       <div>
 
         <Container className='main-container' fluid>
           <Row>
-            <Col xs={1.5}  className='container'>
+            <Col md={1.5}  className='container'>
               <img
                 alt='siren'
                 onClick={this.goHome}
@@ -320,7 +337,7 @@ class Face extends Component {
               />
             </Col>
 
-            <Col xs={9.5}  className='container'>
+            <Col md={9.5}  className='container'>
               <h1 className='title'>
 
                 Cloud Learning Journey
@@ -344,7 +361,7 @@ class Face extends Component {
         >
           <Row>
 
-            <Col xs={5} className='container'>
+            <Col md={5} xs={12} className='container'>
               <div className='dropzone'>
 
                 {showCamera
@@ -410,52 +427,55 @@ class Face extends Component {
                 ? <span>
 
                   <h3 className='blurb'>
-                      Drag and drop photos to analyze faces.
+                      Drag and drop or click to analyze faces.
                   </h3>
                   
                 </span>
                 : null}
 
             </Col>
-            <Col xs={7}>
+            <Col md={7} xs={12}>
 
               {reject
                 ? <div className='error'>
-                    Unable to process: low image resolution quality or no faces found.
+                    Unable to analyze: low image resolution quality.
                   </div>
                 : null}
 
               {showintro
                 ? <span>
 
-                  <div>
+                  <div className="intro">
                       The Microsoft Cognitive Services APIs allow developers to embed AI
-
                       in their applications to enable those apps to see, speak, understand,
-
                       and interpret the needs of users.
                     </div>
 
                   <div className='blurb'>
 
-                    <span>
-                      <img
-                        alt='Vision'
-                        className='apimap'
-                        src={require('../images/vision.png')}
-                        />
-                    </span>
-                  </div>
+                    <span onClick={this.toggleHidden.bind(this)}>
+                        {this.state.isHidden ? (
+                          <img
+                            alt='Vision'
+                            className='apimap'
+                            src={require('../images/vision.png')}
+                            />
+                        ):null}
+
+                        {!this.state.isHidden && <Child />}
+                   </span>
+  
+                 </div>
 
                   <p>
-                      The Face API takes an image as an input,
-                      and returns JSON data with confidence scores across a set of facial
+                      <b>The Face API</b> takes an image as an input,
+                      and <b>returns JSON data</b> with confidence scores across a set of facial
 
                       attributes for each face in the image.
                     </p>
 
                   <p>
-                      These attributes and emotions are understood to be cross-culturally
+                      These attributes and emotions are cross-culturally
                       and universally communicated with particular facial expressions as well as gender and approximate age.
                     </p>
 
@@ -495,24 +515,7 @@ class Face extends Component {
           <Row>
             <Col>
 
-              {showhistory
-                ? <div>
-                  <ul className='heroes'>
-
-                    {this.state.heroes.map(hero => {
-                      return (
-                        <Hero
-                          key={hero.id}
-                          hero={hero}
-                          onSelect={this.handleSelect}
-                          onDelete={this.handleDelete}
-                          selectedHero={this.state.selectedHero}
-                          />
-                      )
-                    })}
-                  </ul>
-                </div>
-                : null}
+             
 
               <div>
 
@@ -520,7 +523,7 @@ class Face extends Component {
                   ? <span>
                     <Row>
 
-                      <div className='label'>Profile Analysys</div>
+                      <div className='label meta'>Profile Analysys</div>
                     </Row>
                     <SBScatterplotChart
                       width={150}
@@ -529,7 +532,7 @@ class Face extends Component {
                       />
                   </span>
                   : null}
-
+                  
                 <span className='gender'>
                   {males
                     ? <span className='piechart male meta'>
@@ -570,7 +573,7 @@ class Face extends Component {
 
                 </Row>
                 <Row>
-                  <div className='label'>Facial Profile(s)</div>
+                  <div className='label meta'>Facial Profile(s)</div>
                 </Row>
                 <Row>
 
