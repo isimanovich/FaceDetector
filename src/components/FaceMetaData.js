@@ -5,7 +5,7 @@ import SBPieChart from './SBPieChart'
 const FaceMetaData = props => {
   const limit = 50
   const gstyle = 'upper ' + props.gender
-  const { gender, age, faceattributes, imageSrc, files, faceRectangle } = props
+  const { gender, age, faceattributes, files, faceRectangle } = props
   let ag = parseInt(age, 0)
   let finalacc = ''
 
@@ -41,7 +41,7 @@ const FaceMetaData = props => {
       )
 
     var canvasIamge = canvas.toDataURL('image/png')
-  
+
     return canvasIamge
   }
 
@@ -63,7 +63,12 @@ const FaceMetaData = props => {
 
         <div>
 
-          <img id='thumbnail' alt='' src={loadCanvas() ||  ''} className='thumbnail' />
+          <img
+            id='thumbnail'
+            alt=''
+            src={loadCanvas() || ''}
+            className='thumbnail'
+          />
 
           <span
             className={getEmotionName(faceattributes.emotion).name + ' score'}
