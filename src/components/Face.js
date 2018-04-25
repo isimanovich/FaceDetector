@@ -12,8 +12,6 @@ import { getEmotionChartSummary, getPieData, getScatterPlotData } from '../Util'
 import Footer from './footer'
 import { resource } from './resource'
 import Webcam from 'react-webcam'
-//import Hero from './Hero'
-import api from '../api'
 import { Legend } from 'react-easy-chart'
 import FaBeer from 'react-icons/lib/fa/camera'
 
@@ -29,26 +27,17 @@ class Face extends Component {
       happiness: 0,
       loading: false,
       showintro: true,
-      showhistory: false,
       reject: false,
       caption: '',
-      heroes: [],
-      creatingHero: false,
-      selectedHeroName: '',
       showCamera: false,
       imageSrc: '',
       isHidden: true
     }
   }
 
-  toggleHidden () {
-    this.setState({
-      isHidden: !this.state.isHidden
-    })
-  }
+ 
 
-  
-   getCroppedImg=(image, pixelCrop, fileName) =>{
+     getCroppedImg=(image, pixelCrop, fileName) =>{
 
     const canvas = document.createElement('canvas');
     canvas.width = pixelCrop.width;
@@ -67,56 +56,12 @@ class Face extends Component {
       pixelCrop.height
     );
   
-    // As Base64 string
-    // const base64Image = canvas.toDataURL('image/jpeg');
-  
-    // As a blob
     return new Promise((resolve, reject) => {
       canvas.toBlob(file => {
         file.name = fileName;
         resolve(file);
       }, 'image/jpeg');
     });
-  }
-  
-  
-
-
-
-
-
-
-  handleSelect = hero => {
-    this.setState({ selectedHero: hero })
-  }
-
-  handleDelete = (event, hero) => {
-    event.stopPropagation()
-    api.destroy(hero).then(() => {
-      let heroes = this.state.heroes
-      heroes = heroes.filter(h => h !== hero)
-      this.setState({ heroes: heroes })
-      if (this.selectedHero === hero) {
-        this.setState({ selectedHero: null })
-      }
-    })
-  }
-
-  handleEnableAddMode = () => {
-    this.setState({
-      addingHero: true,
-      selectedHero: { id: '', name: '', saying: '', emotion: null }
-    })
-  }
-
-  handleCancel = () => {
-    this.setState({ addingHero: false, selectedHero: null })
-  }
-
-  handleOnChange = event => {
-    let selectedHero = this.state.selectedHero
-    selectedHero[event.target.name] = event.target.value
-    this.setState({ selectedHero: selectedHero })
   }
 
   getTotal = (data, name) => {
@@ -194,7 +139,7 @@ class Face extends Component {
 
   getFaceDetection = (preview) => {
     this.setState({ metadata: [], imageSrc: '' })
-   const uriBase = resource.URI_BASE + 'face/v1.0/detect'
+    const uriBase = resource.URI_BASE + 'face/v1.0/detect'
     const params = {
       returnFaceId: 'true',
       returnFaceLandmarks: 'false',
@@ -218,8 +163,8 @@ class Face extends Component {
         if (this.state.metadata.length === 0) {
           this.setState({ reject: true })
         }
-         console.clear()
-         console.log('JSON data: ', JSON.stringify(this.state.metadata, null, 2))
+         //console.clear()
+         //console.log('JSON data: ', JSON.stringify(this.state.metadata, null, 2))
       })
       .fail(function (jqXHR, textStatus, errorThrown) {})
   }
@@ -239,6 +184,12 @@ class Face extends Component {
     return males
   }
 
+  toggleHidden () {
+    this.setState({
+      isHidden: !this.state.isHidden
+    })
+  }
+
   applyMimeTypes (event) {
     this.setState({
       accept: event.target.value
@@ -251,7 +202,6 @@ class Face extends Component {
 
   capture = () => {
     const imageSrc = this.webcam.getScreenshot()
-
     this.getFaceDetection(imageSrc)
     this.setState({
       loading: true,
@@ -267,8 +217,7 @@ class Face extends Component {
   render () {
     
     const {
-      accept,
-      
+      accept,   
       dropzoneActive,
       metadata,
       showintro,
@@ -307,12 +256,14 @@ class Face extends Component {
 
     const reactIconOn = {
       color: 'tomato',
-      fontSize: '1.5em'
+      fontSize: '2em',
+      cursor: 'pointer'
     }
 
     const reactIconOff = {
       color: '#097142',
-      fontSize: '1.5em'
+      fontSize: '2em',
+      cursor: 'pointer'
     }
 
     const Child = () => (
@@ -514,8 +465,6 @@ class Face extends Component {
 
           <Row>
             <Col>
-
-             
 
               <div>
 
