@@ -12,7 +12,7 @@ import { getEmotionChartSummary, getPieData, getScatterPlotData } from '../Util'
 import Footer from './footer'
 import { resource } from './resource'
 import Webcam from 'react-webcam'
-import Hero from './Hero'
+//import Hero from './Hero'
 import api from '../api'
 import { Legend } from 'react-easy-chart'
 import FaBeer from 'react-icons/lib/fa/camera'
@@ -268,7 +268,7 @@ class Face extends Component {
     
     const {
       accept,
-      showhistory,
+      
       dropzoneActive,
       metadata,
       showintro,
