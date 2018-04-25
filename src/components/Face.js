@@ -256,12 +256,14 @@ class Face extends Component {
 
     const reactIconOn = {
       color: 'tomato',
-      fontSize: '1.5em'
+      fontSize: '2em',
+      cursor: 'pointer'
     }
 
     const reactIconOff = {
       color: '#097142',
-      fontSize: '1.5em'
+      fontSize: '2em',
+      cursor: 'pointer'
     }
 
     const Child = () => (
