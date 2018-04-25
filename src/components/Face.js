@@ -15,8 +15,7 @@ import Webcam from 'react-webcam'
 import Hero from './Hero'
 import api from '../api'
 import { Legend } from 'react-easy-chart'
-import FaBeer from 'react-icons/lib/fa/camera';
-
+import FaBeer from 'react-icons/lib/fa/camera'
 
 var _ = require('lodash')
 
@@ -37,10 +36,47 @@ class Face extends Component {
       creatingHero: false,
       selectedHeroName: '',
       showCamera: false,
-      imageSrc:''
-     
+      imageSrc: ''
     }
   }
+
+   getCroppedImg=(image, pixelCrop, fileName) =>{
+
+    const canvas = document.createElement('canvas');
+    canvas.width = pixelCrop.width;
+    canvas.height = pixelCrop.height;
+    const ctx = canvas.getContext('2d');
+  
+    ctx.drawImage(
+      image,
+      pixelCrop.x,
+      pixelCrop.y,
+      pixelCrop.width,
+      pixelCrop.height,
+      0,
+      0,
+      pixelCrop.width,
+      pixelCrop.height
+    );
+  
+    // As Base64 string
+    // const base64Image = canvas.toDataURL('image/jpeg');
+  
+    // As a blob
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(file => {
+        file.name = fileName;
+        resolve(file);
+      }, 'image/jpeg');
+    });
+  }
+  
+  
+
+
+
+
+
 
   handleSelect = hero => {
     this.setState({ selectedHero: hero })
@@ -69,7 +105,6 @@ class Face extends Component {
     this.setState({ addingHero: false, selectedHero: null })
   }
 
-  
   handleOnChange = event => {
     let selectedHero = this.state.selectedHero
     selectedHero[event.target.name] = event.target.value
@@ -83,7 +118,6 @@ class Face extends Component {
   }
 
   goHome = () => {
-    
     this.setState({
       showintro: true,
       files: [],
@@ -99,7 +133,7 @@ class Face extends Component {
     this.setState({
       showCamera: true,
       imageSrc: '',
-      files:[]
+      files: []
     })
   }
 
@@ -148,15 +182,10 @@ class Face extends Component {
       }
     )
   }
- 
 
-  getFaceDetection = preview => {
-
-    this.setState({metadata: [],imageSrc:''});
-
-console.log('preview',preview);
-
-    const uriBase = resource.URI_BASE + 'face/v1.0/detect'
+  getFaceDetection = (preview) => {
+    this.setState({ metadata: [], imageSrc: '' })
+   const uriBase = resource.URI_BASE + 'face/v1.0/detect'
     const params = {
       returnFaceId: 'true',
       returnFaceLandmarks: 'false',
@@ -176,12 +205,12 @@ console.log('preview',preview);
     })
       .done(data => {
         this.setState({ metadata: data, loading: false })
-       
+
         if (this.state.metadata.length === 0) {
           this.setState({ reject: true })
         }
-        // console.clear()
-        // console.log('JSON data: ', JSON.stringify(this.state.metadata, null, 2))
+         console.clear()
+         console.log('JSON data: ', JSON.stringify(this.state.metadata, null, 2))
       })
       .fail(function (jqXHR, textStatus, errorThrown) {})
   }
@@ -222,12 +251,12 @@ console.log('preview',preview);
       reject: false,
       imageSrc: imageSrc,
       showCamera: false,
-      files:[]
-      
+      files: []
     })
   }
 
   render () {
+    
     const {
       accept,
       showhistory,
@@ -267,40 +296,41 @@ console.log('preview',preview);
       }
     }
 
-    const reactIconOn  = {
+    const reactIconOn = {
       color: 'tomato',
       fontSize: '1.5em'
-      }
-    
-    
-      const reactIconOff  = {
-        color: '#097142',
-        fontSize: '1.5em'
-        
-        }
-        
-      return (
+    }
+
+    const reactIconOff = {
+      color: '#097142',
+      fontSize: '1.5em'
+    }
+
+    return (
       <div>
 
         <Container className='main-container' fluid>
           <Row>
-          <Col xs={2} className='container'>
-          <img alt="siren" onClick={this.goHome} className="siren" src={require('../images/siren.png')} />
-          </Col>
+            <Col xs={1.5}  className='container'>
+              <img
+                alt='siren'
+                onClick={this.goHome}
+                className='siren clearfix'
+                src={require('../images/siren.png')}
+              />
+            </Col>
 
-            <Col xs={10} className='container'>
-              <h1 className="title" >
-                
+            <Col xs={9.5}  className='container'>
+              <h1 className='title'>
+
                 Cloud Learning Journey
 
               </h1>
               <h3 className='subtitle'>
-                <b>FRED</b> - the ultimate media analytics tool
+                <b>FRED</b> - Face Recognition Emotion Detection
               </h3>
 
             </Col>
-
-         
 
           </Row>
         </Container>
@@ -316,14 +346,10 @@ console.log('preview',preview);
 
             <Col xs={5} className='container'>
               <div className='dropzone'>
-              
+
                 {showCamera
-                  ? 
-                  <FaBeer style={reactIconOn} onClick={this.capture} />
-                  
-                  : 
-                  <FaBeer style={reactIconOff} onClick={this.resetWebcam} />
-                  }
+                  ? <FaBeer style={reactIconOn} onClick={this.capture} />
+                  : <FaBeer style={reactIconOff} onClick={this.resetWebcam} />}
 
                 <Dropzone
                   className='photo'
@@ -335,7 +361,6 @@ console.log('preview',preview);
 
                   {dropzoneActive && <div style={overlayStyle} />}
                   <div className='photo'>
-                
 
                     {showCamera
                       ? <div>
@@ -384,10 +409,10 @@ console.log('preview',preview);
               {showintro
                 ? <span>
 
-                  <h3 className='subtitle'>
-                      Drag and drop photos to analyze
-                    </h3>
-                 
+                  <h3 className='blurb'>
+                      Drag and drop photos to analyze faces.
+                  </h3>
+                  
                 </span>
                 : null}
 
@@ -402,13 +427,12 @@ console.log('preview',preview);
 
               {showintro
                 ? <span>
-                  
-                  
+
                   <div>
                       The Microsoft Cognitive Services APIs allow developers to embed AI
-                      
+
                       in their applications to enable those apps to see, speak, understand,
-                     
+
                       and interpret the needs of users.
                     </div>
 
@@ -426,7 +450,7 @@ console.log('preview',preview);
                   <p>
                       The Face API takes an image as an input,
                       and returns JSON data with confidence scores across a set of facial
-                      
+
                       attributes for each face in the image.
                     </p>
 
@@ -495,8 +519,7 @@ console.log('preview',preview);
                 {metadata.length > 1
                   ? <span>
                     <Row>
-                      
-                  
+
                       <div className='label'>Profile Analysys</div>
                     </Row>
                     <SBScatterplotChart
@@ -553,12 +576,15 @@ console.log('preview',preview);
 
                   {metadata.map((f, i) => (
                     <FaceMetaData
+                      imageSrc={imageSrc}
                       key={f.faceId}
                       gender={f.faceAttributes.gender}
                       age={f.faceAttributes.age}
                       faceattributes={f.faceAttributes}
                       count={metadata.length}
                       metadata={this.state.metadata}
+                      faceRectangle={f.faceRectangle}
+                      files={files || imageSrc}
                       />
                     ))}
 
@@ -570,7 +596,7 @@ console.log('preview',preview);
 
         </Container>
 
-        <Footer />
+       <Footer />
 
       </div>
     )

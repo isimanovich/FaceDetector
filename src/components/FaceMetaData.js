@@ -2,13 +2,48 @@ import React from 'react'
 import { getEmotionName, getEmotionChart, hasMoustache, isBald } from '../Util'
 import SBPieChart from './SBPieChart'
 
-
 const FaceMetaData = props => {
-  const limit = 60;
-  const gstyle = 'upper ' + props.gender;
-  const { gender, age, faceattributes } = props;
-  let ag = parseInt(age,0);
-  let finalacc = '';
+  const limit = 50
+  const gstyle = 'upper ' + props.gender
+  const { gender, age, faceattributes, imageSrc, files, faceRectangle } = props
+  let ag = parseInt(age, 0)
+  let finalacc = ''
+
+  const img = new Image()
+
+  if (files[0]) {
+    img.src = files[0].preview
+  }
+
+  const newWidth = faceRectangle.width
+  const newHeight = faceRectangle.height
+
+  const startX = faceRectangle.left
+  const startY = faceRectangle.top
+
+  function loadCanvas () {
+    var canvas = document.createElement('canvas')
+    canvas.width = newWidth
+    canvas.height = newHeight
+    canvas.style.zIndex = 8
+    canvas
+      .getContext('2d')
+      .drawImage(
+        img,
+        startX,
+        startY,
+        newWidth,
+        newHeight,
+        0,
+        0,
+        newWidth,
+        newHeight
+      )
+
+    var canvasIamge = canvas.toDataURL('image/png')
+  
+    return canvasIamge
+  }
 
   if (faceattributes.accessories.length > 0) {
     let val = []
@@ -17,29 +52,35 @@ const FaceMetaData = props => {
     }
     finalacc = val.join(', ')
   }
-  if (ag > limit) {ag = parseInt(ag - 15,10)}
+  if (ag > limit) {
+    ag = parseInt(ag - 15, 10)
+  }
+
   return (
     <div className='meta'>
 
       <div className='metabeta'>
+
         <div>
-          Emotion: <span
+
+          <img id='thumbnail' alt='' src={loadCanvas() ||  ''} className='thumbnail' />
+
+          <span
             className={getEmotionName(faceattributes.emotion).name + ' score'}
           >
+
             {getEmotionName(faceattributes.emotion).name}
           </span>
         </div>
-
+        <div>Age: {ag}</div>
         <div>
-          Confidence: <span
-            className={getEmotionName(faceattributes.emotion).score}
-          >
+          Score: <span className={getEmotionName(faceattributes.emotion).score}>
             {getEmotionName(faceattributes.emotion).score}%
           </span>
         </div>
 
         <div>Gender: <span className={gstyle}>{gender}</span></div>
-        <div>Age: {ag}</div>
+
         {hasMoustache(faceattributes.facialHair)
           ? <div>
               Attr: {hasMoustache(faceattributes.facialHair)}

@@ -303,6 +303,7 @@ z-index:10000;
 }
 .siren:hover{
   cursor: pointer;
+
 }
 
 
@@ -354,4 +355,27 @@ button:hover {
 }
 .cameraOff{
   background-color:red;
+}
+
+img.thumbnail{
+  margin: 0 0 0px 10px;
+  
+  float:right;
+  border:0px solid #ccc;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.container {
+  width: 600px;
+  margin: 0 auto;
+}
+
+.after-img {
+  width: 200px;
+  height:auto;
 }

@@ -21,6 +21,8 @@ const footer = () => (
     </p>
 
     <div> {resource.PB_FORM_COPYRIGHT}</div>
+    <div> {resource.PB_TAGLINE}</div>
+   
   </div>
 );
 
