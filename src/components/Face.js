@@ -163,8 +163,8 @@ class Face extends Component {
         if (this.state.metadata.length === 0) {
           this.setState({ reject: true })
         }
-         //console.clear()
-         //console.log('JSON data: ', JSON.stringify(this.state.metadata, null, 2))
+         console.clear()
+         console.log('JSON data: ', JSON.stringify(this.state.metadata, null, 2))
       })
       .fail(function (jqXHR, textStatus, errorThrown) {})
   }
@@ -270,7 +270,7 @@ class Face extends Component {
       <img
       alt='Vision'
       className='apimap'
-      src={require('../images/csa.png')}
+      src={require('../images/fred-demo-slide.jpg')}
       />
       )
 

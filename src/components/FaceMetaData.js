@@ -5,7 +5,7 @@ import SBPieChart from './SBPieChart'
 const FaceMetaData = props => {
   const limit = 50
   const gstyle = 'upper ' + props.gender
-  const { gender, age, faceattributes, files, faceRectangle } = props
+  const { gender, age, faceattributes, files, imageSrc, faceRectangle } = props
   let ag = parseInt(age, 0)
   let finalacc = ''
 
@@ -14,6 +14,11 @@ const FaceMetaData = props => {
   if (files[0]) {
     img.src = files[0].preview
   }
+  else{
+    img.src = imageSrc
+  }
+//console.log('imageSrc: ',imageSrc);
+
 
   const newWidth = faceRectangle.width
   const newHeight = faceRectangle.height
@@ -66,7 +71,7 @@ const FaceMetaData = props => {
           <img
             id='thumbnail'
             alt=''
-            src={loadCanvas() || ''}
+            src={loadCanvas()}
             className='thumbnail'
           />
 
